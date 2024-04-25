@@ -1,8 +1,0 @@
-TP1-DAEMON
-Pasos para correr el script 
-
-- pip3 install -r requirements.txt
-- crear archivo .env
-    touch .env
-    sudo nano .env
-- python3 mailSender.py --accion start restart stop
