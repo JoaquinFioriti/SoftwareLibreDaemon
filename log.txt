@@ -1,0 +1,22 @@
+hola como andas
+hola como andas perrito
+[200]hola como andas perrito
+[200]	hola como andas perrito
+[200]  hola como andas perrito
+[START]  INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:32:29 ] hola como andas perrito
+[START]  [ 2024-04-25 14:32:29 ] INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:32:46 ] hola como andas perrito
+[START]  [ 2024-04-25 14:32:46 ] INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:32:59 ] hola como andas perrito
+[START]  [ 2024-04-25 14:32:59 ] INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:33:05 ] hola como andas perrito
+[START]  [ 2024-04-25 14:33:05 ] INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:34:09 ]  - hola como andas perrito
+[START]  [ 2024-04-25 14:34:09 ]  - INICIAMOS DAEMON
+[200]  [ 2024-04-25 14:34:50 ]  - hola aaa
+[START]  [ 2024-04-25 14:34:50 ]  - INICIAMOS DAEMON
+[]  [ 2024-04-25 14:35:12 ]  - hola aaa
+[]  [ 2024-04-25 14:35:12 ]  - INICIAMOS DAEMON
+[200] - [ [ 2024-04-25 14:36:25 ] ] - hola aaa 
+[START] - [ [ 2024-04-25 14:36:25 ] ] - INICIAMOS DAEMON 

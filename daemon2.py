@@ -1,6 +1,9 @@
 """Generic linux daemon base class for python 3.x."""
 
 import sys, os, time, atexit, signal
+from logger import Logger
+logger = Logger("log.txt")
+logger.escribir('200','hola aaa')
 
 class Daemon:
     """A generic daemon class.
@@ -14,10 +17,10 @@ class Daemon:
         try: 
             pid = os.fork() 
             if pid > 0:
-                # exit first parent
                 sys.exit(0) 
         except OSError as err: 
             sys.stderr.write('fork #1 failed: {0}\n'.format(err))
+            logger.escribir('ERROR',' FALLO EL PRIMER FORK')
             sys.exit(1)
     
         # decouple from parent environment
@@ -25,18 +28,17 @@ class Daemon:
         os.setsid() 
         os.umask(0) 
     
-        # do second fork
+        # segundo fork
         try: 
             pid = os.fork() 
             if pid > 0:
-
-                # exit from second parent
                 sys.exit(0) 
         except OSError as err: 
             sys.stderr.write('fork #2 failed: {0}\n'.format(err))
+            logger.escribir('ERROR',' FALLO EL SEGUNDO FORK')
             sys.exit(1) 
     
-        # redirect standard file descriptors
+        # 
         sys.stdout.flush()
         sys.stderr.flush()
         si = open(os.devnull, 'r')
@@ -50,6 +52,7 @@ class Daemon:
         # write pidfile
         atexit.register(self.delpid)
 
+        # creo archivo con el pidfile
         pid = str(os.getpid())
         with open(self.pidfile,'w+') as f:
             f.write(pid + '\n')
@@ -58,7 +61,6 @@ class Daemon:
         os.remove(self.pidfile)
 
     def start(self):
-        """Start the daemon."""
 
         # Check for a pidfile to see if the daemon already runs
         try:
@@ -72,14 +74,14 @@ class Daemon:
             message = "pidfile {0} already exist. " + \
                     "Daemon already running?\n"
             sys.stderr.write(message.format(self.pidfile))
+            logger.escribir('ERROR',' EL DAEMON YA SE ENCUENTRA CORRIENDO')
             sys.exit(1)
         
-        # Start the daemon
+        logger.escribir('START','INICIAMOS DAEMON')
         self.daemonize()
         self.run()
 
     def stop(self):
-        """Stop the daemon."""
 
         # Get the pid from the pidfile
         try:
@@ -91,13 +93,14 @@ class Daemon:
         if not pid:
             message = "pidfile {0} does not exist. " + \
                     "Daemon not running?\n"
+            logger.escribir('ERROR',' SE INTENTO DETENER DAEMON NO EXISTENTE')
             sys.stderr.write(message.format(self.pidfile))
             return # not an error in a restart
 
-        # Try killing the daemon process	
         try:
             while 1:
                 os.kill(pid, signal.SIGTERM)
+                logger.escribir('END','FINALIZAMOS DAEMON')
                 time.sleep(0.1)
         except OSError as err:
             e = str(err.args)
@@ -109,13 +112,9 @@ class Daemon:
                 sys.exit(1)
 
     def restart(self):
-        """Restart the daemon."""
+        logger.escribir('RESTART','REINICIAMOS DAEMON')
         self.stop()
         self.start()
 
     def run(self):
-        """You should override this method when you subclass Daemon.
-        
-        It will be called after the process has been daemonized by 
-        start() or restart()."""
         print('O esta llamando al viejo?')

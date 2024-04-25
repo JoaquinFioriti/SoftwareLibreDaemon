@@ -8,11 +8,7 @@ import sys
 import ssl
 
 from daemon2 import Daemon
-
-
-
-
-
+from logger import Logger
 
 load_dotenv()
 EMISOR_EMAIL = os.getenv("EMISOR_EMAIL")
@@ -20,6 +16,7 @@ CONTRASENA = os.getenv("CONTRASENA")
 
 URL_DEL_SERVER = "http://techiflo.com"
 RECEPTOR_EMAIL = "techifloapp@gmail.com"
+logger = Logger("log.txt")
 
 
 
@@ -64,9 +61,11 @@ def main():
     while True:
         if checkear_server():
             print("El servidor no está en funcionamiento. Enviando correo electrónico...")
+            logger.escribir('ERROR',' SE CAYO EL SERVIDOR')
             enviar_email("Alerta: Servidor no está en funcionamiento", "El servidor no está respondiendo.")
         else:
             print("El servidor está en funcionamiento.")
+            logger.escribir('200',' SERVIDOR EN FUNCIONAMIENTO')
 
         # Esperar 30 segundos antes de realizar la siguiente verificación
         time.sleep(60)
