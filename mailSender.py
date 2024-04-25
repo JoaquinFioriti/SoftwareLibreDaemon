@@ -82,11 +82,40 @@ class Daemon_Custom(Daemon):
 
 if __name__ == "__main__":
 
-    ruta_actual = os.path.dirname(__file__)
-    archivo_pid = os.path.join(ruta_actual, 'Proceso.pid')
+    argumentos = sys.argv
+    if ('--accion' in argumentos):
+        try:
+            index = argumentos.index('--accion')
+            accion = argumentos[index + 1]
+            ruta_actual = os.path.dirname(__file__)
+            print('ruta_actual', ruta_actual)
+            archivo_pid = os.path.join(ruta_actual, 'Proceso.pid')
+            print('archivo_pid', archivo_pid)
+            daemon = Daemon_Custom(archivo_pid)
+            match accion:
+                case 'start':
+                    print('ejecutaste start')
+                    daemon.start()
+                case 'stop':
+                    print('ejecutaste stop')
+                    daemon.stop()
+                case 'restart':
+                    print('ejecutaste restart')
+                    daemon.stop()
+                    daemon.start()
+                case _:
+                    print('Comando no reconocido')
+        except Exception as e:
+            print('Tenes que especificar que accion realizar utilizando el flag --accion [start/stop/restart]')
+    else:
+        print('Tenes que especificar que accion realizar utilizando el flag --accion [start/stop/restart]')
 
-    daemon = Daemon_Custom(archivo_pid)
-    daemon.start()
+        
+
+        
+
+    
+    
 
 
     
