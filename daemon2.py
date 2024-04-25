@@ -3,7 +3,6 @@
 import sys, os, time, atexit, signal
 from logger import Logger
 logger = Logger("log.txt")
-logger.escribir('200','hola aaa')
 
 class Daemon:
     """A generic daemon class.

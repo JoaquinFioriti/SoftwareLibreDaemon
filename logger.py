@@ -8,7 +8,6 @@ class  Logger:
         try:
             with open(self.archivo, 'a') as archivo:
                 hora  = datetime.now().strftime(" %Y-%m-%d %H:%M:%S ")
-                # Combinar el texto con la fecha y hora
                 texto_hora = f"[{status}] - [ {hora}] - {texto} \n"
                 archivo.write( texto_hora)
             print("Escribimos en el logger", texto)
