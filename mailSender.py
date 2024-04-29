@@ -19,11 +19,10 @@ logger = Logger("log.txt")
 
 #Nuestro objetivo es que processId != SessionId
 
-# 1. `Parent`    = PID: 28084, PGID: 28084, SID: 28046 -----> En el paso 1, tenemos un padre que es lider de grupo y sesion
-
-# 2. `Fork#1`    = PID: 28085, PGID: 28084, SID: 28046
-# 3. `Decouple#1`= PID: 28085, PGID: 28085, SID: 28085
-# 4. `Fork#2`    = PID: 28086, PGID: 28085, SID: 28085Q
+# 1. `Parent`    = PID: 28084, PGID: 28084, SID: 28046 -----> tenemos un padre que es lider de grupo
+# 2. `Fork#1`    = PID: 28085, PGID: 28084, SID: 28046 -----> tenemos al hijo que no es lider de grupo, pero esta vinculado a una terminal existente
+# 3. `Decouple#1`= PID: 28085, PGID: 28085, SID: 28085 -----> desasociamos al hijo de la terminal, haciendolo lider de una nueva sesion
+# 4. `Fork#2`    = PID: 28086, PGID: 28085, SID: 28085 -----> creamos un nuevo proceso que no es lider de grupo ni sesion, ni esta vinculado a ninguna terminal
 
 
 
