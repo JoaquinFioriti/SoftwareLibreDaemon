@@ -22,12 +22,12 @@ class Daemon:
             logger.escribir('ERROR',' FALLO EL PRIMER FORK')
             sys.exit(1)
     
-        # decouple from parent environment
-        os.chdir('/') 
-        os.setsid() 
-        os.umask(0) 
+        os.chdir('/')  #Asiganmos el proceso al directorio base
+        os.setsid()  #Desasociamos el subproceso de la terminal inicial y lo volvemos lider de proceso y de terminal
+        os.umask(0) #Le damos los permisos de escritura y lectura de archivos al demonio
     
         # segundo fork
+        #De esta manera creamos un nuevo proceso para que el PID != SESSID y no tenga acceso una terminal en un futuro
         try: 
             pid = os.fork() 
             if pid > 0:
@@ -37,18 +37,21 @@ class Daemon:
             logger.escribir('ERROR',' FALLO EL SEGUNDO FORK')
             sys.exit(1) 
     
-        # 
+        # Limpiamos los buffers
         sys.stdout.flush()
         sys.stderr.flush()
+
+        # Abimos las referencias a los descriptores para posterior clonacion 
         si = open(os.devnull, 'r')
         so = open(os.devnull, 'a+')
         se = open(os.devnull, 'a+')
 
+        # Clonamos que los descirptores de nuestro proceso sean igual que los descriptores devnull. Que descarte todo
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
     
-        # write pidfile
+        # registramos la funcion delpid para que se ejecute al finalizar el proceso
         atexit.register(self.delpid)
 
         # creo archivo con el pidfile
@@ -61,7 +64,7 @@ class Daemon:
 
     def start(self):
 
-        # Check for a pidfile to see if the daemon already runs
+        #Checkear en el archivo pid para ver si el demonio ya esta corriendo
         try:
             with open(self.pidfile,'r') as pf:
 

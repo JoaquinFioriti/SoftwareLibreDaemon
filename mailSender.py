@@ -13,10 +13,17 @@ from logger import Logger
 load_dotenv()
 EMISOR_EMAIL = os.getenv("EMISOR_EMAIL")
 CONTRASENA = os.getenv("CONTRASENA")
-
-URL_DEL_SERVER = "https://techiflo.com"
-RECEPTOR_EMAIL = "techifloapp@gmail.com"
+URL_DEL_SERVER = os.getenv("URL_DEL_SERVER")
+RECEPTOR_EMAIL = os.getenv("RECEPTOR_EMAIL")
 logger = Logger("log.txt")
+
+#Nuestro objetivo es que processId != SessionId
+
+# 1. `Parent`    = PID: 28084, PGID: 28084, SID: 28046 -----> En el paso 1, tenemos un padre que es lider de grupo y sesion
+
+# 2. `Fork#1`    = PID: 28085, PGID: 28084, SID: 28046
+# 3. `Decouple#1`= PID: 28085, PGID: 28085, SID: 28085
+# 4. `Fork#2`    = PID: 28086, PGID: 28085, SID: 28085Q
 
 
 
