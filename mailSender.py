@@ -8,28 +8,22 @@ import sys
 import ssl
 
 from daemon2 import Daemon
-
-
-
-
-
+from logger import Logger
 
 load_dotenv()
 EMISOR_EMAIL = os.getenv("EMISOR_EMAIL")
 CONTRASENA = os.getenv("CONTRASENA")
 
-URL_DEL_SERVER = "http://techiflo.com"
+URL_DEL_SERVER = "https://techiflo.com"
 RECEPTOR_EMAIL = "techifloapp@gmail.com"
+logger = Logger("log.txt")
 
 
 
 def checkear_server():
     try:
         response = requests.get(URL_DEL_SERVER)
-        if response.status_code == 200:
-            return True
-        else:
-            return False
+        return response.status_code 
     except requests.ConnectionError:
         return False
 
@@ -62,14 +56,16 @@ def enviar_email(asunto, mensaje):
 
 def main():
     while True:
-        if checkear_server():
-            print("El servidor no está en funcionamiento. Enviando correo electrónico...")
-            enviar_email("Alerta: Servidor no está en funcionamiento", "El servidor no está respondiendo.")
+        codigo = checkear_server()
+        print(codigo)
+        if (codigo != 200):
+            logger.escribir('ERROR', f'SE CAYÓ EL SERVIDOR - Código: {codigo}')
+            enviar_email("Alerta: Servidor no está en funcionamiento", "El servidor no está respondiendo")
         else:
-            print("El servidor está en funcionamiento.")
+            logger.escribir('200',' SERVIDOR EN FUNCIONAMIENTO')
 
-        # Esperar 30 segundos antes de realizar la siguiente verificación
-        time.sleep(60)
+        # Esperar 30 segundos 
+        time.sleep(30)
 
 
 class Daemon_Custom(Daemon):
