@@ -31,7 +31,7 @@ def checkear_server():
         response = requests.get(URL_DEL_SERVER)
         return response.status_code 
     except requests.ConnectionError:
-        return False
+        return 500
 
 def enviar_email(asunto, mensaje):
 
@@ -65,7 +65,8 @@ def main():
         codigo = checkear_server()
         print(codigo)
         if (codigo != 200):
-            logger.escribir('ERROR', f'SE CAYÓ EL SERVIDOR - Código: {codigo}')
+            texto = f" SE CAYO EL SERVIDOR - CODIGO: {codigo} \n"
+            logger.escribir('ERROR', texto)
             enviar_email("Alerta: Servidor no está en funcionamiento", "El servidor no está respondiendo")
         else:
             logger.escribir('200',' SERVIDOR EN FUNCIONAMIENTO')
