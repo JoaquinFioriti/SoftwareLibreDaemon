@@ -1,3 +1,5 @@
+from daemon import Daemon
+from logs.logger import Logger
 from dotenv import load_dotenv
 from email.message import EmailMessage
 import time
@@ -7,24 +9,12 @@ import os
 import sys
 import ssl
 
-from daemon2 import Daemon
-from logger import Logger
-
 load_dotenv()
 EMISOR_EMAIL = os.getenv("EMISOR_EMAIL")
 CONTRASENA = os.getenv("CONTRASENA")
 URL_DEL_SERVER = os.getenv("URL_DEL_SERVER")
 RECEPTOR_EMAIL = os.getenv("RECEPTOR_EMAIL")
-logger = Logger("log.txt")
-
-#Nuestro objetivo es que processId != SessionId
-
-# 1. `Parent`    = PID: 28084, PGID: 28084, SID: 28046 -----> tenemos un padre que es lider de grupo
-# 2. `Fork#1`    = PID: 28085, PGID: 28084, SID: 28046 -----> tenemos al hijo que no es lider de grupo, pero esta vinculado a una terminal existente
-# 3. `Decouple#1`= PID: 28085, PGID: 28085, SID: 28085 -----> desasociamos al hijo de la terminal, haciendolo lider de una nueva sesion
-# 4. `Fork#2`    = PID: 28086, PGID: 28085, SID: 28085 -----> creamos un nuevo proceso que no es lider de grupo ni sesion, ni esta vinculado a ninguna terminal
-
-
+logger = Logger("logs/log.txt")
 
 def checkear_server():
     try:
@@ -63,7 +53,6 @@ def enviar_email(asunto, mensaje):
 def main():
     while True:
         codigo = checkear_server()
-        print(codigo)
         if (codigo != 200):
             texto = f" SE CAYO EL SERVIDOR - CODIGO: {codigo} \n"
             logger.escribir('ERROR', texto)
@@ -71,14 +60,12 @@ def main():
         else:
             logger.escribir('200',' SERVIDOR EN FUNCIONAMIENTO')
 
-        # Esperar 30 segundos 
         time.sleep(30)
 
 
 class Daemon_Custom(Daemon):
 
     def run(self):
-        print('Esta llamando a este no?')
         main()
 
 
@@ -91,9 +78,7 @@ if __name__ == "__main__":
             index = argumentos.index('--accion')
             accion = argumentos[index + 1]
             ruta_actual = os.path.dirname(__file__)
-            print('ruta_actual', ruta_actual)
             archivo_pid = os.path.join(ruta_actual, 'Proceso.pid')
-            print('archivo_pid', archivo_pid)
             daemon = Daemon_Custom(archivo_pid)
             match accion:
                 case 'start':
