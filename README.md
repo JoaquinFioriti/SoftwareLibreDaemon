@@ -21,10 +21,20 @@ Esto abrirá el editor nano para que  puedas configurar el `.env`. Disponemos de
 
 `.env.example`
 
-`EMISOR_EMAIL = insertesuemail@gmail.com
-CONTRASENA = contrasena
-URL_DEL_SERVER = http://localhost:3000/
-RECEPTOR_EMAIL = receptoremail@gmail.com`
+```dotenv
+
+# Dirección de correo electrónico del remitente de las alertas
+EMISOR_EMAIL=insertesuemail@gmail.com
+
+# Contraseña para autenticación en el servidor de correo electrónico
+CONTRASENA=contrasena
+
+# URL del servidor
+URL_DEL_SERVER=http://localhost:3000/
+
+# Dirección de correo electrónico del receptor de las alertas
+RECEPTOR_EMAIL=receptoremail@gmail.com
+```
 
 ### Correr script
 
