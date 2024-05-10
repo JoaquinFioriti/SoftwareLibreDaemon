@@ -21,6 +21,11 @@ Esto abrirá el editor nano para que  puedas configurar el `.env`. Disponemos de
 
 `.env.example`
 
+`EMISOR_EMAIL = insertesuemail@gmail.com
+CONTRASENA = contrasena
+URL_DEL_SERVER = http://localhost:3000/
+RECEPTOR_EMAIL = receptoremail@gmail.com`
+
 ### Correr script
 
 3.  Finalmente, para ejecutar el daemon utiliza el siguiente comando en la terminal.
