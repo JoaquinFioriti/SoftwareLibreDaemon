@@ -39,11 +39,11 @@ RECEPTOR_EMAIL=receptoremail@gmail.com
 ### Correr script
 
 3.  Finalmente, para ejecutar el daemon utiliza el siguiente comando en la terminal.
--     python3 mailSender.py --accion start
+-     python3 app.py --accion start
 3.1 Para reiniciar el daemon utiliza el siguiente comando en la terminal.
--     python3 mailSender.py --accion start restart 
+-     python3 app.py --accion start restart 
 3.2 Para finalizar el daemon utiliza el siguiente comando en la terminal.
--     python3 mailSender.py --accion start stop
+-     python3 app.py --accion start stop
 
 Con estos pasos se puede usar el daemon de manera exitosa.
 
