@@ -1,7 +1,11 @@
 """Generic linux daemon base class for python 3.x."""
-
-import sys, os, time, atexit, signal
 from logs.logger import Logger
+from dotenv import load_dotenv
+from Email.Email import EmailService
+import sys, os, time, atexit, signal, requests
+
+load_dotenv()
+URL_DEL_SERVER = os.getenv("URL_DEL_SERVER")
 logger = Logger("log.txt")
 
 class Daemon:
@@ -106,3 +110,31 @@ class Daemon:
         logger.escribir('RESTART','REINICIAMOS DAEMON')
         self.stop()
         self.start()
+
+
+class Daemon_Custom(Daemon):
+
+    def __init__(self, pidfile): 
+        super().__init__(pidfile)
+
+    def checkear_server(self):
+        try:
+            response = requests.get(URL_DEL_SERVER)
+            return response.status_code 
+        except requests.ConnectionError:
+            return 500
+
+    def main(self):
+        while True:
+            codigo = self.checkear_server()
+            if (codigo != 200):
+                texto = f" SE CAYO EL SERVIDOR - CODIGO: {codigo} \n"
+                logger.escribir('ERROR', texto)
+                EmailService.enviar_email("Alerta: Servidor no está en funcionamiento", "El servidor no está respondiendo")
+            else:
+                logger.escribir('200',' SERVIDOR EN FUNCIONAMIENTO')
+
+            time.sleep(30)
+
+    def run(self):
+        self.main()
