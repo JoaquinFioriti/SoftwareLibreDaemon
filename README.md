@@ -29,3 +29,11 @@ Esto abrirá el editor nano para que  puedas configurar el `.env`. Disponemos de
 -     python3 mailSender.py --accion start restart 
 3.2 Para finalizar el daemon utiliza el siguiente comando en la terminal.
 -     python3 mailSender.py --accion start stop
+
+Con estos pasos se puede usar el daemon de manera exitosa.
+
+## Contribuciones
+El proyecto está abierto a contribuciones. Si tenes alguna sugerencia de mejora, funcionalidad adicional o encuentras algún problema, no dudes en abrir un issue o enviar un pull request.
+
+## Uso en la Facultad de Ingeniería en Mar del Plata
+Este trabajo fue utilizado para la materia de Software Libre en la Facultad de Ingeniería en Mar del Plata.
